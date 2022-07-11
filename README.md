@@ -5,6 +5,34 @@ Glitch-tip Error tracking software command-line tool in python click
 
 - Step 1. Clone this repository and run the following command.
 
+
+- Step 2. Install all the python package requirements.
+
+
+```
+sudo pip install -r requirements.txt
+
+```
+
+- Step 3. Setup and `.env` file in the root of the source codes directory.
+
+-Step 4. Generate a Gltichtip API Token from either.
+
+[Glichtip Staging](https://glitchtip.stage.devshift.net)
+[Glitchtip Production](https://gltichtip.devshift.net)
+
+Step 4. Add the appropriate envirnment variable your `DOTENV` file
+
+Example
+
+```
+
+PROJECT_API_KEY='Your API TOKEN Here'
+STAGING_URL='Staging'
+PRODUCTION_URL='Production'
+
+```
+
 ```
 python glitchtipcli.py
    _________ __       __    __  _             _________
