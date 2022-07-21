@@ -1,3 +1,4 @@
+import email
 import os
 from pprint import PrettyPrinter, pprint
 from rich.console import Console
@@ -266,6 +267,63 @@ def create_project(project):
         print("Result not found!, no project was created")
 
     # Code here will react to failed requests
+
+# Create superuser in Glitchtip options 
+
+@main.command()
+@click.argument("name")
+@click.argument("email")
+@click.argument("org_id")
+def create_user(name, email, org_id):
+    """Creates a new Glitchtip User associated with an organization"""
+
+    # API DOCs url endpoint https://app.glitchtip.com/api/0/users/ or https://app.glitchtip.com/api/0/organizations/{organization_slug}/users/{id}/teams/{members_team_slug}/
+
+    url_format = (
+        "https://glitchtip.stage.devshift.net/api/0/users/"
+    )
+
+    name = "+".join(name.split())
+    email = "+".join(email.split())
+    ID = str(org_id)
+    
+    query_params = {
+    "isSuperuser": True,
+    "emails": [{'email':email}],
+    "id": ID,
+    "isActive": True,
+    "hasPasswordAuth": True,
+    "name": name,
+    "email": email
+}
+
+    my_headers = {
+        "content-type": "application/json",
+        "Authorization": "Bearer " + API_KEY,
+    }
+    response = requests.post(url_format, headers=my_headers, json=query_params)
+
+    if response.status_code == 200:
+        print("The request was a success!")
+        print(
+            tabulate(
+                response.json(),
+                headers="firstrow",
+                tablefmt="fancy_grid",
+                showindex="always",
+            )
+        )
+        print(
+            emoji.emojize(
+                "The request was a successfull, you created a new project! :rocket:"
+            )
+        )
+
+    # Code here will only not successful and return http 400 response
+    elif response.status_code == 400:
+        print(ID)
+        print (response.json())
+        print("Result not found!, no user was created")
 
 
 if __name__ == "__main__":
