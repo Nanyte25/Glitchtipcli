@@ -1,7 +1,7 @@
 # Glitchtipcli
 Glitch-tip Error tracking software command-line tool in python click
 
-## To run Glitchtip commandline tool locallay.
+## To run Glitchtip commandline tool local setup.
 
 - Step 1. Clone this repository and run the following command and setup a virtual environment.
 
