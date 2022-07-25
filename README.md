@@ -24,10 +24,7 @@ sudo pip install -r requirements.txt
 
 - **Step 3.** Setup and `.env` file in the root of the source codes directory.
 
-- **Step 4.** Generate a Gltich-tip API Token from either. Login into your Hosted or self hosted Glitch-Got:tip instances in the appropriate organization.
-
-[Glihctip Staging](https://glitchtip.stage.devshift.net)
-[Glitchtip Production](https://gltichtip.devshift.net)
+- **Step 4.** Generate a Gltich-tip API Token from your Glitchtip instance. Login into your hosted or self hosted Glitchtip instance in the appropriate organization.
 
 - **Step 5.**  **Goto** --> **Profile** --> **Auth Tokens**
 
