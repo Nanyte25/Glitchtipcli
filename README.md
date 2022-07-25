@@ -35,7 +35,7 @@ sudo pip install -r requirements.txt
 
 - Click Create button and give your `Auth Token` a name and apply the appropriate permissions.
 
-[Auth_token](https://github.com/Nanyte25/Glitchtipcli/blob/main/images/auth_token.png)
+![alt text](images/auth_token.png "Glitchtip Auth Token")
 
 - Step 6. Add the appropriate environment variable your `DOTENV` file
 
