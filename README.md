@@ -33,7 +33,7 @@ sudo pip install -r requirements.txt
 
 **Goto** --> **Profile** --> **Auth Tokens**
 
-- Click Create button and give your `Auth Token` a name and apply the appropriate permissions.
+- Click `Create New Token` button and give your `Auth Token` a name and apply the appropriate permissions.
 
 ![alt text](images/auth_token.png "Glitchtip Auth Token")
 
