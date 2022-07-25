@@ -137,7 +137,7 @@ def list_organizations(organizations):
     print(tabulate(response.json(), headers="keys", tablefmt="fancy_grid"))
     print(
         emoji.emojize(
-            "The request was a successfull, Here is your Glitchtip organization list! :rocket:"
+            "The request was a successful, Here is your Glitchtip organization list! :rocket:"
         )
     )
 
