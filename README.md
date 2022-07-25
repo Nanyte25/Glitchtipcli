@@ -3,7 +3,7 @@ Glitch-tip Error tracking software command-line tool in python click
 
 ## To run Glitchtip commandline tool local setup.
 
-- Step 1. Clone this repository and run the following command and setup a virtual environment.
+- **Step 1.** Clone this repository and run the following command and setup a virtual environment.
 
 ```
 mkdir -p env
@@ -14,7 +14,7 @@ source env/bin/activate
 ```
 
 
-- Step 2. Install all the python package requirements.
+- **Step 2.** Install all the python package requirements.
 
 
 ```
@@ -22,24 +22,22 @@ sudo pip install -r requirements.txt
 
 ```
 
-- Step 3. Setup and `.env` file in the root of the source codes directory.
+- **Step 3.** Setup and `.env` file in the root of the source codes directory.
 
-- Step 4. Generate a Gltich-tip API Token from either. Login into your Hosted or self hosted Glitch-Got:tip instances in the appropriate organization.
+- **Step 4.** Generate a Gltich-tip API Token from either. Login into your Hosted or self hosted Glitch-Got:tip instances in the appropriate organization.
 
 [Glihctip Staging](https://glitchtip.stage.devshift.net)
 [Glitchtip Production](https://gltichtip.devshift.net)
 
--Step 5
-
-**Goto** --> **Profile** --> **Auth Tokens**
+- **Step 5.**  **Goto** --> **Profile** --> **Auth Tokens**
 
 - Click `Create New Token` button and give your `Auth Token` a name and apply the appropriate permissions.
 
 ![alt text](images/auth_token.png "Glitchtip Auth Token")
 
-- Step 6. Add the appropriate environment variable your `DOTENV` file
+- **Step 6.** Add the appropriate environment variable your `DOTENV` file
 
-Example
+**Example**
 
 ```
 
