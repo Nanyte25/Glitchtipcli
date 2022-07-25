@@ -19,6 +19,7 @@ source env/bin/activate
 
 ```
 sudo pip install -r requirements.txt
+pip freeze > requirements.txt
 
 ```
 
@@ -73,5 +74,49 @@ Commands:
   list-organizations   This returns the list of glitchtip Organization...
   list-projects        This returns the list of glitchtip projects
   list-teams           This returns the list of Glitchtip teams
+
+```
+
+
+## To Glitchitp command-line from Container Yourself and Push to Docker Hub
+
+### Build image
+*(If you want to develop yourself)* 
+docker build --tag=hello-duke-cli-210 .
+
+### List docker images
+docker image ls
+
+### Run my newly built container
+
+docker run -it glitchtipcli/nanyte25 python glitchtipcli.py --name 
+
+### Push to Docker Hub
+
+*Note:  You will need to change for your Docker Hub Repo*
+docker push Nanyte25/glitchtipcli:0.01
+
+## Run it yourself
+
+```bash
+docker pull nanyte25/glitchtipcli:latest
+docker run -it nanyte/glitchtip bash 
+
+#then run python app.py --help
+```
+
+## Pass in a command
+
+```bash
+docker run -it  python glitchtipcli.py --name 
+
+#the output
+List of teams
+```
+
+## To push your new image to Quay.io
+
+
+```
 
 ```
