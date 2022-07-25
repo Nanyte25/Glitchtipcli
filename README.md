@@ -29,7 +29,7 @@ sudo pip install -r requirements.txt
 [Glichtip Staging](https://glitchtip.stage.devshift.net)
 [Glitchtip Production](https://gltichtip.devshift.net)
 
-- Step 4. Add the appropriate envirnment variable your `DOTENV` file
+- Step 5. Add the appropriate environment variable your `DOTENV` file
 
 Example
 
