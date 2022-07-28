@@ -1,7 +1,9 @@
+from datetime import date
 import email
 import os
 from pprint import PrettyPrinter, pprint
 from rich.console import Console
+from rich.progress import track
 from rich.table import Table
 from unicodedata import name
 from wsgiref import headers
@@ -9,13 +11,25 @@ from dotenv import load_dotenv
 import pyfiglet
 from pyfiglet import Figlet
 from tabulate import tabulate
+import tkinter as tk
 import json
 import emoji
 import click
 import requests
+import time
+from tkinter import *
+from PIL import Image 
+import ascii_magic
+from rich.console import Console
+from rich.markdown import Markdown
+from rich.traceback import install
+
+# working with a framework (click, django etc), you may only be interested in seeing the code from your own application within the traceback.
+
+install(suppress=[click])
 
 
-# Adding commandline auto completion
+# Adding command line auto completion
 
 
 # loading the env file
@@ -23,40 +37,64 @@ load_dotenv()
 
 __author__ = "Mark Freer CS-SRE"
 
-# Uses dotenv ro load creds file
+# Uses .env and load credentials file
 
 API_KEY = os.getenv("PROJECT_API_KEY")
 
 
+
 # Load ASCII art for terminal
 
-result = pyfiglet.figlet_format("Glitchtip-Cli", font="slant")
+result = pyfiglet.figlet_format("glitchtip", font="starwars", width = 100)
+
 print(result)
+
+# Markdown doc generations for Glitchtip  
+
+console = Console()
+with open('docs/Banner.md') as md:
+    markdown = Markdown(md.read())
+    console.print(markdown)
+
+
+# Create a photoimage object of the image in the path
+#my_art = ascii_magic.from_image_file('images/glitchtip.png', columns=45)
+
+#ascii_magic.to_terminal(my_art)
 
 
 @click.group()
 def main():
     """
-    A Glitchtip Commandline tool to query the Glitchtip Error tracking software API.
+    A Glitchtip Command line tool to query the Glitchtip Error tracking software API.
 
     Glitchtip API Documentation https://app.glitchtip.com/docs/#operation/api_0_organizations_teams_create
     """
-    pass
 
 
 # ================== The team listing sections============================
 @main.command()
 def list_teams():
-    """This returns the list of Glitchtip teams"""
-    url_format = "https://glitchtip.stage.devshift.net/api/0/teams/"
+    """This returns the list of glitchtip teams"""
+    
+    
+    
+    ## https://glitchtip.stage.devshift.net/api/0/organizations/cssre-admins/teams/ and https://glitchtip.stage.devshift.net/api/0/organizations/cssre-admins/members/  and https://app.glitchtip.com/docs/#operation/api_0_teams_members_list
+    
+
+    url_format = "https://glitchtip.stage.devshift.net/api/0/organizations/cssre-admins/teams"
 
     my_headers = {"Authorization": "Bearer " + API_KEY}
     response = requests.get(url_format, headers=my_headers)
+    
+    if response.status_code == 200:
+        for i in track(range(20), description="Processing Teams data from glitchtip API....."):
+            time.sleep(0.1)  # Simulate work being done
 
     print(tabulate(response.json(), headers="firstrow", tablefmt="fancy_grid"))
     print(
         emoji.emojize(
-            "The request was a successfull, here is your Team List! :rocket:"
+            "The request was a successful, here is your Team List! :rocket:"
         )
     )
 
@@ -65,27 +103,36 @@ def list_teams():
 
 
 @main.command()
-@click.argument("id")
-def list_memebers(id):
+@click.argument("members")
+def list_members(members):
+    
+    """This returns the list of glitchtip projects members"""
+    
+    ## They API docs state to use this endpoint https://app.glitchtip.com/api/0/teams/{team_pk}/members/
 
-    url_format = "https://glitchtip.stage.devshit.net/api/0/teams/cssre-admins/members/{id}/"
+    url_format = "https://glitchtip.stage.devshift.net/api/0/organizations/cssre-admins/members/"
 
-    id = "+".join(id.split())
+    members = "+".join(members.split())
 
-    id = {"id": id}
+    params = {"slug" : members}
 
     my_headers = {"Authorization": "Bearer " + API_KEY}
-    response = requests.get(url_format, headers=my_headers, json=id)
+    response = requests.get(url_format, headers=my_headers, json=params, timeout=(2,5))
+
+    
     if response.status_code == 200:
+        for i in track(range(10), description="Processing members data from glitchtip..."):
+            time.sleep(0.2)  # Simulate work being done
 
         print(tabulate(response.json(), headers="keys", tablefmt="fancy_grid"))
         print(
             emoji.emojize(
-                "The request was a successfull, here is the list of memebers associated wiht your Glicthtip org :rocket:"
+                "The request was a successful, here is the list of members associated with your Glitch-tip org :rocket:"
             )
         )
 
     elif response.status_code == 404:
+        print (response.json())
 
         print("The Glitchtip project name was not found")
         # Code here will react to failed requests
@@ -97,7 +144,9 @@ def list_memebers(id):
 @main.command()
 @click.argument("projectname")
 def list_projects(projectname):
+    
     """This returns the list of glitchtip projects"""
+    
     url_format = "https://glitchtip.stage.devshift.net/api/0/projects/"
 
     projectname = "+".join(projectname.split())
@@ -107,6 +156,9 @@ def list_projects(projectname):
     my_headers = {"Authorization": "Bearer " + API_KEY}
     response = requests.get(url_format, headers=my_headers, params=pro_params)
     if response.status_code == 200:
+        
+        for i in track(range(20), description="Processing  project data from glitchtip..."):
+            time.sleep(0.5)  # Simulate work being done
 
         print(tabulate(response.json(), headers="keys", tablefmt="fancy_grid"))
         print(
@@ -125,6 +177,7 @@ def list_projects(projectname):
 @main.command()
 @click.argument("organizations")
 def list_organizations(organizations):
+    
     """This returns the list of glitchtip Organization people are members"""
     url_format = "https://glitchtip.stage.devshift.net/api/0/organizations/"
     organizations = "+".join(organizations.split())
@@ -133,6 +186,9 @@ def list_organizations(organizations):
 
     my_headers = {"Authorization": "Bearer " + API_KEY}
     response = requests.get(url_format, headers=my_headers, params=org_params)
+    
+    for i in track(range(10), description="Processing data from glitchtip..."):
+        time.sleep(0.1)  # Simulate work being done
 
     print(tabulate(response.json(), headers="keys", tablefmt="fancy_grid"))
     print(
@@ -148,7 +204,7 @@ def list_organizations(organizations):
 @main.command()
 @click.argument("team")
 def create_team(team):
-    """Creates a new Team in Glitchtip under your organizations ID"""
+    """Creates a new Team in glitchtip under your organizations ID"""
 
     url_format = "https://glitchtip.stage.devshift.net/api/0/organizations/cssre-admins/teams/"
     team = "+".join(team.split())
@@ -188,7 +244,7 @@ def create_team(team):
 @main.command()
 @click.argument("org")
 def create_organization(org):
-    """Creates a new Glitchtip Organization"""
+    """Creates a new glitchtip organization"""
 
     # https://app.glitchtip.com/api/0/organizations/
 
@@ -215,7 +271,7 @@ def create_organization(org):
         )
         print(
             emoji.emojize(
-                "The request was a successfull, you created a new organization! :rocket:"
+                "The request was a successful, you created a new organization! :rocket:"
             )
         )
 
@@ -229,7 +285,7 @@ def create_organization(org):
 @main.command()
 @click.argument("project")
 def create_project(project):
-    """Creates a new Glitchtip Project"""
+    """Creates a new glitchtip Project"""
 
     # https://app.glitchtip.com/api/0/projects/{project_pk}/teams/
 
@@ -275,7 +331,7 @@ def create_project(project):
 @click.argument("email")
 @click.argument("org_id")
 def create_user(name, email, org_id):
-    """Creates a new Glitchtip User associated with an organization"""
+    """Creates a new glitchtip User associated with an organization"""
 
     # API DOCs url endpoint https://app.glitchtip.com/api/0/users/ or https://app.glitchtip.com/api/0/organizations/{organization_slug}/users/{id}/teams/{members_team_slug}/
 
@@ -315,7 +371,7 @@ def create_user(name, email, org_id):
         )
         print(
             emoji.emojize(
-                "The request was a successfull, you created a new project! :rocket:"
+                "The request was a successful you created a new project! :rocket:"
             )
         )
 
@@ -324,6 +380,143 @@ def create_user(name, email, org_id):
         print(ID)
         print (response.json())
         print("Result not found!, no user was created")
+        
+        
+##### Deleting a Glitchtip organization #################################
+
+
+@main.command()
+@click.argument("org")
+def delete_organization(org):
+    """Delete a glitchtip organization"""
+
+    # The Glitchtip API state use this request type https://app.glitchtip.com/api/0/organizations/{slug}/ ref: https://app.glitchtip.com/docs/#operation/api_0_organizations_partial_update
+
+    url_format = 'https://glitchtip.stage.devshift.net/api/0/organizations/'+org
+    org = "+".join(org.split())
+
+    payload = json.dumps ({"slug": org})
+
+    my_headers = {
+        'Accept': 'application/json',
+        "content-type": "application/json",
+        "Authorization": "Bearer " + API_KEY,
+    }
+    response = requests.delete(url_format, headers=my_headers, data=payload)
+    for i in track(range(10), description="Hold on we are deleting the Org from Glitchtip..."):
+               time.sleep(0.1)  # Simulate work being done
+
+    if response.status_code == 200:
+        
+        print("The request was a success!")
+        print(
+            tabulate(
+                response.data(),
+                headers="firstrow",
+                tablefmt="fancy_grid",
+                showindex="always",
+            )
+        )
+        print(
+            emoji.emojize(
+                "The request was a successful, you deleted the glitchtip organization! :rocket:"
+            )
+        )
+
+    # Code here will only run if the request is successful
+    elif response.status_code == 400:
+        print("Result not found!, no organization was Deleted")
+        
+##---------------- Main Deleting Project Section ---------------- ###
+
+
+@main.command()
+@click.argument("project")
+def delete_project(project):
+    """Delete a glitchtip project"""
+
+    # The Glitchtip API state use this request type https://app.glitchtip.com/api/0/organizations/{slug}/ ref: https://app.glitchtip.com/docs/#operation/api_0_organizations_partial_update
+
+    url_format = 'https://glitchtip.stage.devshift.net/api/0/organizations/'+project
+    project = "+".join(project.split())
+
+    payload = json.dumps ({"slug": project})
+
+    my_headers = {
+        'Accept': 'application/json',
+        "content-type": "application/json",
+        "Authorization": "Bearer " + API_KEY,
+    }
+    response = requests.delete(url_format, headers=my_headers, data=payload)
+    for i in track(range(10), description="Hold on we are deleting the project from Glitchtip organization..."):
+               time.sleep(0.1)  # Simulate work being done
+
+    if response.status_code == 200:
+        
+        print("The request was a success!")
+        print(
+            tabulate(
+                response.data(),
+                headers="firstrow",
+                tablefmt="fancy_grid",
+                showindex="always",
+            )
+        )
+        print(
+            emoji.emojize(
+                "The request was a successful, you deleted the glitchtip project! :rocket:"
+            )
+        )
+
+    # Code here will only run if the request is successful
+    elif response.status_code == 400:
+        print("Result not found!, no project was Deleted")
+
+##---------------- Main Deleting Project Section ---------------- ###
+
+
+@main.command()
+@click.argument("team_slug")
+@click.argument("id")
+def delete_team(team_slug):
+    """Delete a glitchtip team"""
+
+    # The Glitchtip API state use this request type https://app.glitchtip.com/api/0/organizations/{organization_slug}/teams/{id}/ ref: https://app.glitchtip.com/docs/#operation/api_0_organizations_partial_update
+
+    url_format = 'https://glitchtip.stage.devshift.net/api/0/organizations/'+team_slug/teams/+'id'
+    team_slug = "+".join(team_slug.split())
+
+    payload = json.dumps ({"slug": team_slug})
+
+    my_headers = {
+        'Accept': 'application/json',
+        "content-type": "application/json",
+        "Authorization": "Bearer " + API_KEY,
+    }
+    response = requests.delete(url_format, headers=my_headers, data=payload)
+    for i in track(range(10), description="Hold on we are deleting the team from Glitchtip organization..."):
+               time.sleep(0.1)  # Simulate work being done
+
+    if response.status_code == 200:
+        
+        print("The request was a success!")
+        print(
+            tabulate(
+                response.data(),
+                headers="firstrow",
+                tablefmt="fancy_grid",
+                showindex="always",
+            )
+        )
+        print(
+            emoji.emojize(
+                "The request was a successful, you deleted the glitchtip team! :rocket:"
+            )
+        )
+
+    # Code here will only run if the request is successful
+    elif response.status_code == 400:
+        print("Result not found!, no team was Deleted")
 
 
 if __name__ == "__main__":
