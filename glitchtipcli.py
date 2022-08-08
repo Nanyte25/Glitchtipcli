@@ -42,10 +42,9 @@ __author__ = "Mark Freer CS-SRE"
 API_KEY = os.getenv("PROJECT_API_KEY")
 
 
-
 # Load ASCII art for terminal
 
-result = pyfiglet.figlet_format("glitchtip", font="starwars", width = 100)
+result = pyfiglet.figlet_format("Glitchtip", font="slant", width = 100)
 
 print(result)
 
@@ -66,9 +65,7 @@ with open('docs/Banner.md') as md:
 @click.group()
 def main():
     """
-    A Glitchtip Command line tool to query the Glitchtip Error tracking software API.
-
-    Glitchtip API Documentation https://app.glitchtip.com/docs/#operation/api_0_organizations_teams_create
+    A Glitch-tip Command line tool to query the Glitch-tip Error tracking software API.
     """
 
 
@@ -169,7 +166,7 @@ def list_projects(projectname):
 
     elif response.status_code == 404:
 
-        print("The Glitchtip project name was not found")
+        print("The glitchtip project name was not found")
         # Code here will react to failed requests
 
 
@@ -198,7 +195,7 @@ def list_organizations(organizations):
     )
 
 
-# ================== This is the Create Teams Section ====================
+## ================== This is the Create Teams Section =========================================##
 
 
 @main.command()
@@ -280,7 +277,8 @@ def create_organization(org):
         print("Result not found!, no organization created")
 
     # Code here will react to failed requests
-
+    
+##============================= Create Projects section ===============================###
 
 @main.command()
 @click.argument("project")
@@ -324,6 +322,8 @@ def create_project(project):
 
     # Code here will react to failed requests
 
+
+## ============================== Create user section ================================ ##
 # Create superuser in Glitchtip options 
 
 @main.command()
@@ -333,37 +333,35 @@ def create_project(project):
 def create_user(name, email, org_id):
     """Creates a new glitchtip User associated with an organization"""
 
-    # API DOCs url endpoint https://app.glitchtip.com/api/0/users/ or https://app.glitchtip.com/api/0/organizations/{organization_slug}/users/{id}/teams/{members_team_slug}/
+    # API DOCs url endpoint https://app.glitchtip.com/api/0/users/ or https://app.glitchtip.com/api/0/organizations/{organization_slug}/users/{id}/teams/{members_team_slug}/  https://app.glitchtip.com/api/0/organizations/{organization_slug}/members/{id}/
 
-    url_format = (
-        "https://glitchtip.stage.devshift.net/api/0/users/"
-    )
+    url_format = 'https://glitchtip.stage.devshift.net/api/0/organizations/cssre-admins/members/'+org_id
 
     name = "+".join(name.split())
     email = "+".join(email.split())
-    ID = str(org_id)
+    org_id = str(org_id)
     
     query_params = {
     "isSuperuser": True,
     "emails": [{'email':email}],
-    "id": ID,
+    "id": org_id,
     "isActive": True,
     "hasPasswordAuth": True,
     "name": name,
     "email": email
-}
+    }
 
     my_headers = {
         "content-type": "application/json",
         "Authorization": "Bearer " + API_KEY,
     }
-    response = requests.post(url_format, headers=my_headers, json=query_params)
+    response = requests.post(url_format, headers=my_headers, data=query_params)
 
     if response.status_code == 200:
         print("The request was a success!")
         print(
             tabulate(
-                response.json(),
+                response.data(),
                 headers="firstrow",
                 tablefmt="fancy_grid",
                 showindex="always",
@@ -377,8 +375,6 @@ def create_user(name, email, org_id):
 
     # Code here will only not successful and return http 400 response
     elif response.status_code == 400:
-        print(ID)
-        print (response.json())
         print("Result not found!, no user was created")
         
         

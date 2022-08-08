@@ -23,7 +23,7 @@ pip freeze > requirements.txt
 
 ```
 
-- **Step 3.** Setup and `.env` file in the root of the source codes directory.
+- **Step 3.** Setup and `.env` file in the root of the source codes directory. Remeber to included it in your `.gitignore` file.
 
 - **Step 4.** Generate a Gltich-tip API Token from your Glitchtip instance. Login into your hosted or self hosted Glitchtip instance in the appropriate organization.
 
@@ -70,7 +70,7 @@ Commands:
   create-project       Creates a new Glitchtip Project
   create-team          Creates a new Team in Glitchtip under your...
   create-user          Creates a new Glitchtip User associated with an...
-  list-memebers
+  list-members
   list-organizations   This returns the list of glitchtip Organization...
   list-projects        This returns the list of glitchtip projects
   list-teams           This returns the list of Glitchtip teams
