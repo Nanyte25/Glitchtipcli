@@ -78,7 +78,7 @@ Commands:
 ```
 
 
-## To a containerized version of Glitchtip and Push to Docker Hub
+## To build a containerized version of Glitchtip commandline tool and Push to Docker Hub
 
 ### Build image
 *(If you want to develop yourself)* 
