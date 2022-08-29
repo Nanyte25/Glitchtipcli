@@ -42,7 +42,7 @@ pip freeze > requirements.txt
 
 ![alt text](images/auth_token.png "Glitchtip Auth Token")
 
-- **Step 6.** Add the appropriate environment variable your `DOTENV` file
+- **Step 6.** Add the appropriate environment variable to a `DOTENV` file
 
 **Example**
 
