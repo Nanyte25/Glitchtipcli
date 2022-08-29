@@ -1,3 +1,4 @@
+from cProfile import label
 from datetime import date
 import email
 import os
@@ -20,6 +21,8 @@ import time
 from tkinter import *
 from PIL import Image 
 import ascii_magic
+from rich import print
+from rich.text import Text
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.traceback import install
@@ -48,12 +51,13 @@ result = pyfiglet.figlet_format("Glitchtip", font="slant", width = 100)
 
 print(result)
 
+
 # Markdown doc generations for Glitchtip  
 
-console = Console()
-with open('docs/Banner.md') as md:
-    markdown = Markdown(md.read())
-    console.print(markdown)
+#console = Console()
+#with open('docs/Banner.md') as md:
+#    markdown = Markdown(md.read())
+#    console.print(markdown)
 
 
 # Create a photoimage object of the image in the path
@@ -61,7 +65,7 @@ with open('docs/Banner.md') as md:
 
 #ascii_magic.to_terminal(my_art)
 
-
+print("GT, [bold blue]Open Source Error Tracking Software[/bold blue]!", ":coffee:", "[u]By[/u]", "[i]Mark Freer[/i]")
 @click.group()
 def main():
     """
@@ -118,10 +122,10 @@ def list_members(members):
 
     
     if response.status_code == 200:
-        for i in track(range(10), description="Processing members data from glitchtip..."):
-            time.sleep(0.2)  # Simulate work being done
+        for i in track(range(20), description="Processing members data from glitchtip..."):
+            time.sleep(0.1)  # Simulate work being done
 
-        print(tabulate(response.json(), headers="keys", tablefmt="fancy_grid"))
+        print(tabulate(response.json(), headers="keys", tablefmt="grid"))
         print(
             emoji.emojize(
                 "The request was a successful, here is the list of members associated with your Glitch-tip org :rocket:"
@@ -154,10 +158,10 @@ def list_projects(projectname):
     response = requests.get(url_format, headers=my_headers, params=pro_params)
     if response.status_code == 200:
         
-        for i in track(range(20), description="Processing  project data from glitchtip..."):
+        for i in track(range(10), description="Processing  project data from glitchtip..."):
             time.sleep(0.5)  # Simulate work being done
 
-        print(tabulate(response.json(), headers="keys", tablefmt="fancy_grid"))
+        print(tabulate(response.json(), headers="keys", tablefmt="grid"))
         print(
             emoji.emojize(
                 "The request was a successfull, your project does exist in Glitchtip Error tracking software! :rocket:"
@@ -312,7 +316,7 @@ def create_project(project):
         )
         print(
             emoji.emojize(
-                "The request was a successfull, you created a new project! :rocket:"
+                "The request was a successful, you created a new project! :rocket:"
             )
         )
 
@@ -513,6 +517,58 @@ def delete_team(team_slug):
     # Code here will only run if the request is successful
     elif response.status_code == 400:
         print("Result not found!, no team was Deleted")
+        
+        
+##---------------- Get the List of API token active ---------------- ###
+
+@main.command()
+@click.argument("token_id")
+def list_tokens(token_id):
+    """Get the list of Glitchtip API tokens"""
+
+    # API Documentation https://app.glitchtip.com/api/0/api-tokens/{id}/
+
+    url_format = 'https://glitchtip.stage.devshift.net/api/0/api-tokens/'+token_id
+    token_id = "+".join(token_id.split())
+
+    query_params = {
+        "scopes": "org:read",
+        "label": "cssre-new",
+        "token": "7756d670924af8fef750ad316c61c6dbb615388a2758f7a1a738f3a56451789c",
+        "id": token_id
+        }
+
+    my_headers = {
+        "content-type": "application/json",
+        "Authorization": "Bearer " + API_KEY,
+    }
+    response = requests.get(url_format, headers=my_headers, json=query_params)
+
+    if response.status_code == 200:
+        for i in track(range(20), description="Processing  API token data from glitchtip..."):
+            time.sleep(0.5)  # Simulate work being done
+        
+        print("The request was a success!")
+        print(
+            tabulate(
+                response.json(),
+                headers="firstrow",
+                tablefmt="fancy_grid",
+                showindex="always",
+            )
+        )
+        print(
+            emoji.emojize(
+                "The request was a successful, here is the list of API tokens and there ID's ! :rocket:"
+            )
+        )
+
+    # Code here will only run if the request is successful
+    elif response.status_code == 400:
+        print("Result not found!, no API Token was found")
+
+    # Code here will react to failed requests
+
 
 
 if __name__ == "__main__":

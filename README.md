@@ -1,6 +1,15 @@
 # Glitchtipcli
 Glitch-tip Error tracking software command-line tool in python click
 
+
+
+## Prerequisites 
+
+- python 3.8
+- Click 
+- docker
+
+
 ## To run Glitchtip commandline tool local setup.
 
 - **Step 1.** Clone this repository and run the following command and setup a virtual environment.
@@ -78,45 +87,6 @@ Commands:
 ```
 
 
-## To build a containerized version of Glitchtip commandline tool and Push to Docker Hub
+## Dev workflow
 
-### Build image
-*(If you want to develop yourself)* 
-docker build --tag=hello-duke-cli-210 .
-
-### List docker images
-docker image ls
-
-### Run my newly built container
-
-docker run -it glitchtipcli/nanyte25 python glitchtipcli.py --name 
-
-### Push to Docker Hub
-
-*Note:  You will need to change for your Docker Hub Repo*
-docker push Nanyte25/glitchtipcli:0.01
-
-## Run it yourself
-
-```bash
-docker pull nanyte25/glitchtipcli:latest
-docker run -it nanyte/glitchtip bash 
-
-#then run python app.py --help
-```
-
-## Pass in a command
-
-```bash
-docker run -it  python glitchtipcli.py --name 
-
-#the output
-List of teams
-```
-
-## To push your new image to Quay.io
-
-
-```
-
-```
+Please review our the glitchtip contribution guideline for [Getting-started.md](https://gitlab.cee.redhat.com/cssre/cssre-docs/-/blob/main/development/howto/glitchtip/getting-started.md)
