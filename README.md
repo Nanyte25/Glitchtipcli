@@ -56,37 +56,38 @@ PRODUCTION_URL='Production'
 
 ```
 python glitchtipcli.py
-   _________ __       __    __  _             _________
-  / ____/ (_) /______/ /_  / /_(_)___        / ____/ (_)
- / / __/ / / __/ ___/ __ \/ __/ / __ \______/ /   / / /
-/ /_/ / / / /_/ /__/ / / / /_/ / /_/ /_____/ /___/ / /
-\____/_/_/\__/\___/_/ /_/\__/_/ .___/      \____/_/_/
+   _________ __       __    __  _
+  / ____/ (_) /______/ /_  / /_(_)___
+ / / __/ / / __/ ___/ __ \/ __/ / __ \
+/ /_/ / / / /_/ /__/ / / / /_/ / /_/ /
+\____/_/_/\__/\___/_/ /_/\__/_/ .___/
                              /_/
 
+GT, Open Source Error Tracking Software! ☕ By Mark Freer
 Usage: glitchtipcli.py [OPTIONS] COMMAND [ARGS]...
 
-  A Glitchtip Commandline tool to query the Glitchtip Error tracking software
-  API.
-
-  Glitchtip API Documentation
-  https://app.glitchtip.com/docs/#operation/api_0_organizations_teams_create
+  A Glitch-tip Command line tool to query the Glitch-tip Error tracking
+  software API.
 
 Options:
   --help  Show this message and exit.
 
 Commands:
-  create-organization  Creates a new Glitchtip Organization
-  create-project       Creates a new Glitchtip Project
-  create-team          Creates a new Team in Glitchtip under your...
-  create-user          Creates a new Glitchtip User associated with an...
-  list-members
+  create-organization  Creates a new glitchtip organization
+  create-project       Creates a new glitchtip Project
+  create-team          Creates a new Team in glitchtip under your...
+  create-user          Creates a new glitchtip User associated with an...
+  delete-organization  Delete a glitchtip organization
+  delete-project       Delete a glitchtip project
+  delete-team          Delete a glitchtip team
+  list-members         This returns the list of glitchtip projects members
   list-organizations   This returns the list of glitchtip Organization...
   list-projects        This returns the list of glitchtip projects
-  list-teams           This returns the list of Glitchtip teams
+  list-teams           This returns the list of glitchtip teams
 
 ```
 
 
 ## Dev workflow
 
-Please review our the glitchtip contribution guideline for [Getting-started.md](https://gitlab.cee.redhat.com/cssre/cssre-docs/-/blob/main/development/howto/glitchtip/getting-started.md)
+Please review the glitchtip contribution guideline for [Getting-started.md](https://gitlab.cee.redhat.com/cssre/cssre-docs/-/blob/main/development/howto/glitchtip/getting-started.md)
