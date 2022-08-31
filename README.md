@@ -1,13 +1,21 @@
 # Glitchtipcli
-Glitch-tip Error tracking software command-line tool in python click
+Glitch-tip Error tracking software command-line tool in python click. 
 
 
 
 ## Prerequisites 
-
+- Please review glitchtip [API Documentation](https://app.glitchtip.com/docs/)
 - python 3.8
 - Click 
 - docker
+
+## Feature Remaining - (TODO)
+
+- Push to PyPi
+- Containerized cli tool.
+- Make upstream changes to glitchtip backend to enable api token removal feature flag.
+- Create a reporting feature flag
+- Create a Jira integration
 
 
 ## To run Glitchtip commandline tool local setup.
@@ -53,6 +61,17 @@ STAGING_URL='Staging'
 PRODUCTION_URL='Production'
 
 ```
+
+- Alternatively export as environment variables.
+
+
+```
+export PROJECT_API_KEY='Your API TOKEN Here'
+
+export STAGING_URL='Staging'
+
+```
+
 
 ```
 python glitchtipcli.py
