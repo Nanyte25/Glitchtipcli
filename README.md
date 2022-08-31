@@ -5,9 +5,9 @@ Glitch-tip Error tracking software command-line tool in python click.
 
 ## Prerequisites 
 - Please review glitchtip [API Documentation](https://app.glitchtip.com/docs/)
-- python 3.8
+- Python 3.8
 - Click 
-- docker
+- Docker
 
 ## Feature Remaining - (TODO)
 
