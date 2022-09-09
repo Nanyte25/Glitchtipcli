@@ -616,7 +616,7 @@ def list_tokens(token_id):
     query_params = {
         "scopes": "org:read",
         "label": "cssre-new",
-        "token": "7756d670924af8fef750ad316c61c6dbb615388a2758f7a1a738f3a56451789c",
+        "token": "",
         "id": token_id}
 
     my_headers = {
